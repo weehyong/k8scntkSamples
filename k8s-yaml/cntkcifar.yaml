@@ -1,0 +1,39 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  labels:
+    app: weehyong-cifar10
+  name: weehyong-cifar10
+spec:
+  template:
+    metadata:
+      name: weehyong-cifar10
+    spec:
+      volumes:
+      - name: libraries
+        hostPath:
+          path: /usr/lib/x86_64-linux-gnu
+      - name: azurefile
+        azureFile:
+            secretName: azure-secret
+            shareName: data
+            readOnly: false      
+      containers:
+      - name: weehyong-cifar10 
+        image: weehyong/cifar-10 
+        command: ["/bin/sh", "-c"]
+        args: ["export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu_custom:$LD_LIBRARY_PATH; /app/downloaddata_train.sh"]
+        env:
+        - name: STORAGE_ACCOUNT_NAME
+          value: dlgpuclusterstorage
+        - name: STORAGE_ACCOUNT_KEY
+          value: vKLIUQihOHmMNYIfgzLd0/4I41QLd8KT7R92+dO+ic9BUYdGDlX9BDY1jYJHFwgQxSaw6eXaRnLjUQ+T/OgrYQ==
+        resources:
+          limits:
+            alpha.kubernetes.io/nvidia-gpu: 1
+        volumeMounts:
+        - mountPath: /usr/lib/x86_64-linux-gnu_custom
+          name: libraries
+        - mountPath: "/data"
+          name: azurefile       
+      restartPolicy: Never
