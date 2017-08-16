@@ -1,0 +1,8 @@
+future
+numpy
+opencv
+scikit-image
+scikit-learn
+Pillow
+EasyDict
+azure-storage
