@@ -1,11 +1,11 @@
 # k8scntkSamples
-Samples showing how to use CNTK with Kurbenetes
+Samples showing how to use CNTK with Kubernetes
 
 ## Credits
 A Big Thank you to William Buchwalter for helping me get started on acs-engine.
 
 ## Instructions
-To get CNTK and Kurbenetes running on Azure, acs-engine is the key ingredient to get the Kurbenetes cluster up and running.
+To get CNTK and Kubernetes running on Azure, acs-engine is the key ingredient to get the cluster up and running.
 
 The following sites/resources helped me a lot in getting the Kurbenetes cluster up and running on Azure. 
 * https://github.com/Azure/acs-engine
