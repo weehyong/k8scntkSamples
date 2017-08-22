@@ -1,0 +1,32 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: azure-gpu-test
+spec:
+  template:
+    metadata:
+      name: azure-gpu-test 
+    spec:
+      containers:
+      - image: weehyong/cntkresnetgpu 
+        name: cntkresnetgpu 
+        command: ["/bin/sh", "-c"]
+        args: ["export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu_custom:$LD_LIBRARY_PATH; nvidia-smi"]
+        resources:
+          limits:
+            alpha.kubernetes.io/nvidia-gpu: 1
+          requests:
+            alpha.kubernetes.io/nvidia-gpu: 1  
+        volumeMounts:
+        - mountPath: /usr/bin/
+          name: binaries
+        - mountPath: /usr/lib/x86_64-linux-gnu_custom
+          name: libraries
+      restartPolicy: Never
+      volumes:
+      - name: binaries
+        hostPath:
+          path: /usr/bin/
+      - name: libraries
+        hostPath:
+          path: /usr/lib/x86_64-linux-gnu
